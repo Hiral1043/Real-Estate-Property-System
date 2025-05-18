@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- created group for estate user -->
+    <record id="estate_group_user" model="res.groups">
+        <field name="name">Agent</field>
+        <field name="category_id" ref="base.module_category_real_estate_brokerage"/>
+    </record>
+
+<!-- created group for estate manager -->
+    <record id= "estate_group_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="base.module_category_real_estate_brokerage"/>
+        <field name="implied_ids" eval="[(4, ref('estate_group_user'))]"/>
+    </record>
+<!-- this is done to show record created by particular sales person -->
+    <record id="estate_group_user2" model="ir.rule">
+    <field name="name">salesperson</field>
+    <field name="model_id" ref="model_estate_property"/>
+    <field name="perm_read" eval="True"/>
+    <field name="groups" eval="[4,(ref('estate_group_user'))]"/>
+    <field name="domain_force">[('salesperson', '=', user.id)]</field>  
+    <!-- user.id will give id of current login user -->
+    </record>
+<!-- FOR TYPE removing rights from agent but it also remove rights from manager so have to give it manually -->
+    <record model="ir.model.access" id="access_estate_property_type_user">
+        <field name="name">property_type</field>
+        <field name="model_id" ref="model_estate_property_type"/>
+        <field name="group_id" ref="estate_group_user"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">0</field>
+        <field name="perm_create">0</field>
+        <field name="perm_unlink">0</field>
+    </record>
+<!-- FOR PROPERTY_TYPE while removing it also remove from manager so giving back access to manager -->
+    <record model="ir.model.access" id="access_estate_property_type_manager">
+        <field name="name">property_type_manager</field>
+        <field name="model_id" ref="model_estate_property_type"/>
+        <field name="group_id" ref="estate_group_manager"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+
+<!-- FOR PROPERTRY_TAG removing rights from agent but it also remove rights from manager so have to give it manually -->
+    <record model="ir.model.access" id="access_estate_property_tag_user">
+        <field name="name">property_tag</field>
+        <field name="model_id" ref="model_estate_property_tag"/>
+        <field name="group_id" ref="estate_group_user"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">0</field>
+        <field name="perm_create">0</field>
+        <field name="perm_unlink">0</field>
+    </record>
+<!-- FOR PROPERTY_TAG while removing it also remove from manager so giving back access to manager -->
+    <record model="ir.model.access" id="access_estate_property_tag_manager">
+        <field name="name">property_type_manager</field>
+        <field name="model_id" ref="model_estate_property_tag"/>
+        <field name="group_id" ref="estate_group_manager"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+
+     <!-- <record model="ir.model.access" id="access_estate_property_manager">
+        <field name="name">property</field>
+        <field name="model_id" ref="model_estate_property"/>
+        <field name="group_id" ref="estate_group_user"/>
+        <field name="perm_read">0</field>
+        <field name="perm_write">0</field>
+        <field name="perm_create">0</field>
+        <field name="perm_unlink">0</field>
+    </record> -->
+
+<record model="ir.model.access" id="access_estate_property_manager">
+        <field name="name">property</field>
+        <field name="model_id" ref="model_estate_property"/>
+        <field name="group_id" ref="estate_group_manager"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+
+    <record id="rule_estate_group_manager" model="ir.rule">
+    <field name="name">Manager</field>
+    <field name="model_id" ref="model_estate_property"/>
+    <field name="perm_read" eval="True"/>
+    <field name="groups" eval="[4,(ref('estate_group_manager'))]"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+</odoo>
+
+
+<!-- estate.access_estate_property,access_estate_property,estate.model_estate_property,base.group_user,1,1,1,1
+estate.access_estate_property_type,access_estate_property_type,estate.model_estate_property_type,base.group_user,1,1,1,1
+estate.access_estate_property_tag,access_estate_property_tag,estate.model_estate_property_tag,base.group_user,1,1,1,1
+estate.access_estate_property_offer,access_estate_property_offer,estate.model_estate_property_offer,base.group_user,1,1,1,1
+ -->
+
+ <!--  
+estate.access_estate_property_manager,access_estate_property,estate.model_estate_property,estate.estate_group_manager,1,1,1,1
+estate.access_estate_property_type_manager,access_estate_property_type,estate.model_estate_property_type,estate.estate_group_manager,1,1,1,1
+estate.access_estate_property_tag_manager,access_estate_property_tag,estate.model_estate_property_tag,estate.estate_group_manager,1,1,1,1
+estate.access_estate_property_offer_manager,access_estate_property_offer,estate.model_estate_property_offer,estate.estate_group_manager,1,1,1,1
+
+estate.access_estate_property_user,access_estate_property,estate.model_estate_property,estate.estate_group_user,1,0,0,1
+estate.access_estate_property_type_user,access_estate_property_type,estate.model_estate_property_type,estate.estate_group_user,1,0,0,0
+estate.access_estate_property_tag_user,access_estate_property_tag,estate.model_estate_property_tag,estate.estate_group_user,1,1,1,1
+estate.access_estate_property_offer_user,access_estate_property_offer,estate.model_estate_property_offer,estate.estate_group_user,1,0,0,0-->

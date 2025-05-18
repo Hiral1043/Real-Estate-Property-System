@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="estate_demo_1" model="estate.property">
+            <field name="title">Big Villa</field>
+            <field name="descriptiom">A nice and big villa</field>
+            <field name="postcode">12345678</field> 
+            <field name="expected_price">1600000.00</field> 
+            <field name="date_availability">1970-02-01</field> 
+            <field name="expected_price">100000.00</field> 
+            <field name="selling_price">100000.00</field> 
+            <field name="property_type_id" ref = "estate.property_type_1"/>
+            <field name="bedrooms">1</field> 
+            <field name="living_area">10</field> 
+            <field name="facades">4</field> 
+            <field name="garage">True</field> 
+            <!-- <field name="offer_ids" eval="[Command.clear(), Command.create({'value': 'percent', 'value_amount': 100.0, 'nb_days': 0})]"/> -->
+            
+    </record>
+    
+    <record id="estate_demo_2" model="estate.property">
+        <field name="title">Trailer home</field>
+            <field name="status">cancel</field>
+            <field name="descriptiom">Home in a trailer park</field>
+            <field name="postcode">12345678</field> 
+            <field name="date_availability">1970-01-01</field> 
+            <field name="expected_price">100000.00</field> 
+            <field name="selling_price">100000.00</field> 
+            <field name="bedrooms">1</field> 
+            <field name="property_type_id" ref = "estate.property_type_1"/>
+            <field name="living_area">10</field> 
+            <field name="facades">4</field> 
+            <field name="garage">False</field> 
+         
+    </record>
+<!-- to show record in offer page -->
+    <record id="estate_offer_demo1" model="estate.property.offer">
+        <field name="partner_id" ref="base.res_partner_address_15"/>
+        <field name="property_id" ref= "estate_demo_2"/>
+        <field name="price">100000</field>
+        <field name="date_deadline" eval="datetime.now()"/>
+    </record>
+
+    <function model="estate.property.offer" name="action_status_accept">
+        <value eval="[ref('estate_offer_demo1')]"/>
+    </function>
+
+    <record id="estate_offer_demo2" model="estate.property.offer">
+        <field name="partner_id" ref="base.res_partner_address_14"/>
+        <field name="property_id" ref= "estate_demo_2"/>
+        <field name="price">100000</field>
+        <field name="date_deadline" eval="datetime.now()"/>
+    </record>
+
+    <record id="estate_offer_demo3" model="estate.property.offer">
+        <field name="partner_id" ref="base.res_partner_address_10"/>
+        <field name="property_id" ref= "estate_demo_1"/>
+        <field name="price">100000</field>
+        <field name="date_deadline" eval="datetime.now()"/>
+    </record>
+
+    <function model="estate.property.offer" name="action_status_accept">
+        <value eval="[ref('estate_offer_demo3')]"/>
+    </function>
+    
+
+    <record id="estate_offer_demo4" model="estate.property.offer">
+        <field name="partner_id" ref="base.res_partner_address_11"/>
+        <field name="property_id" ref= "estate_demo_1"/>
+        <field name="price">500000</field>
+        <field name="date_deadline" eval="datetime.now()"/>
+    </record>
+
+    <record id="estate_demo_3" model="estate.property">
+        <field name="title">House</field>
+        <field name="descriptiom">A nice and big villa</field> 
+        <field name="postcode">12345678</field> 
+        <field name="expected_price">100000.00</field> 
+        <field name="date_availability">1970-02-01</field> 
+        <field name="selling_price">100000.00</field> 
+        <field name="property_type_id" ref="estate.property_type_1"/>
+        <field name="bedrooms">1</field> 
+        <field name="living_area">10</field> 
+        <field name="facades">4</field> 
+        <field name="garage">True</field> 
+
+        <field name="offer_ids" eval="[
+            (0, 0, {
+                'partner_id': ref('base.res_partner_address_11'),
+                'price': 100000
+            }),
+            (0, 0, {
+                'partner_id': ref('base.res_partner_address_10'),
+                'price': 100000
+            })
+        ]"/>
+            
+    </record>
+</odoo>

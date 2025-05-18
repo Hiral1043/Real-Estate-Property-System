@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- VIEW -->
+    <record id="estate_property_tag_view_list" model="ir.ui.view">
+        <field name="name">estate_property_tag_view_list</field>
+        <field name="model">estate.property.tag</field>
+        <field name="arch" type="xml">
+            <list editable= "bottom">
+                <field name="name"/>
+                
+            </list>
+        </field>
+    </record>
+
+<!-- ACTION -->
+    <record id="estate_property_tag_action" model="ir.actions.act_window">
+        <field name="name">estate_property_tag</field>
+        <field name="res_model">estate.property.tag</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>
